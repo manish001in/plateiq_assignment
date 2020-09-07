@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
+    'customer'
 ]
 
 MIDDLEWARE = [
@@ -47,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'plateiq.middleware.exceptionCheckMiddleware'
 ]
 
 ROOT_URLCONF = 'plateiq.urls'
@@ -77,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'plateiq',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
+        'USER': 'plateiq_admin',
+        'PASSWORD': '@dmIn123',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -122,3 +125,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = BASE_DIR+'/downloads/'

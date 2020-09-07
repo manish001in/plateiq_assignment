@@ -5,19 +5,6 @@ from django.contrib.auth.models import User
 from django.db import models
 import datetime
 
-
-# users of the system, inclduing clients and internal members
-class UserProfile(models.Model):
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    is_internal = models.BooleanField(default=False)
-    company = models.ForeignKey(Customer, default=None, null=True)
-    created_date = models.DateTimeField(auto_now_add=True, null=True)
-    modified_date = models.DateTimeField(auto_now=True, null=True)
-
-    def __unicode__(self):
-        return self.user.username
-
 # possible currencies in the entire system
 class Currency(models.Model):
 
@@ -49,8 +36,18 @@ class Customer(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Meta:
-        unique_together = (('name', 'address'))
+
+# users of the system, including clients and internal members
+class UserProfile(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    is_internal = models.BooleanField(default=False)
+    company = models.ForeignKey(Customer, default=None, null=True)
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+    modified_date = models.DateTimeField(auto_now=True, null=True)
+
+    def __unicode__(self):
+        return self.user.username
 
 
 # List of vendors information, for future analytics etc.
@@ -66,9 +63,6 @@ class Vendor(models.Model):
 
     def __unicode__(self):
         return self.name
-
-    class Meta:
-        unique_together = (('name', 'address'))
 
 # The invoice and invoice data received from the customers
 class Invoice(models.Model):
@@ -90,7 +84,8 @@ class Invoice(models.Model):
 
     customer = models.ForeignKey(Customer)
     vendor = models.ForeignKey(Vendor, null=True, default=None)
-    customer_id = models.CharField(max_length=100, blank=True, null=True, default=None)
+    # this is to store if our customer has a client id with the vendor
+    client_id = models.CharField(max_length=100, blank=True, null=True, default=None) 
     
     billing_address = models.TextField(null=True, default=None)
     shipping_address = models.TextField(null=True, default=None)
@@ -100,5 +95,4 @@ class Invoice(models.Model):
     modified_date = models.DateTimeField(auto_now=True, null=True)
 
     def __unicode__(self):
-        return self.invoice_number
-
+        return self.id
