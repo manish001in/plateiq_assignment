@@ -126,3 +126,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = BASE_DIR+'/downloads/'
+LOGSLOCATION = BASE_DIR+'/logs/'

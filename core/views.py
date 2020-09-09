@@ -9,7 +9,7 @@ from django.utils.timezone import now
 from django.views.decorators.http import require_http_methods
 
 from core.models import *
-from customer.invoice import InvoiceClass, mock_data
+from customer.invoice import InvoiceClass
 
 @require_http_methods(['GET', 'POST'])
 def mark_status(request):
@@ -59,8 +59,14 @@ def handle_invoice_data(request):
         invoice_id = request.POST.get('invoice_id', '')
         updated_invoice_dict = request.POST.get('invoice_data', '')
 
-        if invoice_id!='' and invoice_data!=None:
+        if invoice_id!='' and updated_invoice_dict!='':
             invoice_obj = InvoiceClass(invoice_id)
+            # to handle data coming from the frontend
+            try:
+                if type(updated_invoice_dict)!=type(dict):
+                    updated_invoice_dict = json.loads(updated_invoice_dict)
+            except Exception as e:
+                return JsonResponse({'result':False, 'error': "Invalid data. "+str(e)}, status=400)
 
             response, error = invoice_obj.update_invoice_data(updated_invoice_dict)
             if response:

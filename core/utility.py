@@ -26,7 +26,7 @@ def invoice_data(invoice_id, update_dictionary=None):
             return response, error
         else:
             invoice_obj = InvoiceClass(invoice_id)            
-            return True, invoice_obj.get_invoice_data()
+            return invoice_obj.get_invoice_data()
 
     except Exception as e:
         logger.error("Error raised in invoice_data "+str(e))

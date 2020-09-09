@@ -95,4 +95,4 @@ class Invoice(models.Model):
     modified_date = models.DateTimeField(auto_now=True, null=True)
 
     def __unicode__(self):
-        return self.id
+        return str(self.id)

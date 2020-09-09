@@ -1,8 +1,9 @@
 import datetime, os, logging, traceback
-from config import LOGSLOCATION
+from settings import LOGSLOCATION
 
 from django.shortcuts import redirect
 from django.http import JsonResponse
+from django.utils.deprecation import MiddlewareMixin
 
 #---------Logger for Exception --------------#                                                                                                                                                                            
 exception_logger = logging.getLogger('exception.logs')
@@ -12,7 +13,7 @@ exception_logger.addHandler(exception_hdlr)
 exception_logger.setLevel(logging.DEBUG)
 #--------------------------------------------#
 
-class exceptionCheckMiddleware(object):
+class exceptionCheckMiddleware(MiddlewareMixin, object):
     # the middleware will be added to the onion layer of middlewares in settings and any exception will raise a status 500
 	# to the frontend while logging and informing the internal tech team etc.
 	def __init__(self, get_response=None):
